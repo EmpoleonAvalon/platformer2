@@ -34,7 +34,7 @@
 		var map;
 		var player;
 		var cursors;
-		var groundLayer;
+		var backLayer, groundLayer;
 		var text;
 		var score = 0;
 		var text;
@@ -70,7 +70,7 @@
 				map = this.make.tilemap({key: 'map'});
 
 				//tiles for the ground layer
-				var groundTiles = map.addTilesetImage('tiles')
+				var groundTiles = map.addTilesetImage('tiles');
 
 				backLayer = map.createDynamicLayer('Background', groundTiles, 0, 0);
 
@@ -87,7 +87,7 @@
 
 			//PLAYER
 				
-				player = this.physics.add.sprite(0,1700, 'player');
+				player = this.physics.add.sprite(0,1850, 'player');
 				player.setBounce(0);
 				player.setCollideWorldBounds(true);
 
