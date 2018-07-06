@@ -12,12 +12,12 @@
 
 		var config = {
 			type : Phaser.AUTO,
-			width: 800,
-			height: 600,
+			width: 1225,
+			height: 700,
 			physics:{
 				default: 'arcade',
 				arcade: {
-					gravity: {y: 1000},
+					gravity: {y: 1200},
 					debug: false
 				}
 			},
@@ -34,7 +34,7 @@
 		var map;
 		var player;
 		var cursors;
-		var backLayer, groundLayer;
+		var farLayer, backLayer, groundLayer, hookLayer, leafLayer;
 		var text;
 		var score = 0;
 		var text;
@@ -50,7 +50,7 @@
 			//title in spritesheet
 			this.load.spritesheet('tiles','assets/bigtile.png', {frameWidth: 64, frameHeight: 64});
 
-
+			this.load.spritesheet('SuperTiles','assets/SuperTiles.png', {frameWidth: 64, frameHeight: 64});
 
 			//simple coin image
 			//this.load.image('coin', 'assets/coinGold.png');
@@ -70,11 +70,20 @@
 				map = this.make.tilemap({key: 'map'});
 
 				//tiles for the ground layer
+
+
 				var groundTiles = map.addTilesetImage('tiles');
+
+				
 
 				backLayer = map.createDynamicLayer('Background', groundTiles, 0, 0);
 
 				//create the ground layer
+
+				leafLayer = map.createDynamicLayer('Leaves', groundTiles, 0, 0);
+
+				hookLayer = map.createDynamicLayer('Woodhooks', groundTiles, 0, 0);
+
 				groundLayer = map.createDynamicLayer('World', groundTiles, 0, 0);
 
 				//The player will collide with this layer
@@ -87,7 +96,7 @@
 
 			//PLAYER
 				
-				player = this.physics.add.sprite(0,1850, 'player');
+				player = this.physics.add.sprite(0,2770, 'player');
 				player.setBounce(0);
 				player.setCollideWorldBounds(true);
 
@@ -98,13 +107,13 @@
 			//CAMERA
 				
 				//set bounds so the camera won't go outside the game world
-				this.cameras.main.setBounds(0, 0, map.widthInPixels, map.heightInPixels );
+				this.cameras.main.setBounds(0, 0, 4000, 4000);
 
 				//make the camera follow the player
 				this.cameras.main.startFollow(player);
 
 				//set background color, so the sky is not black
-				this.cameras.main.setBackgroundColor('#ccccff');
+				this.cameras.main.setBackgroundColor('#7ff4ff');
 
 			//ANIMATION
 			
@@ -142,11 +151,11 @@
 			
 			//SCORE UI
 				
-				text = this.add.text(20, 570, '0', {
-					fontSize : '20px',
-					fill: '#ffffff'
-				});
-				text.setScrollFactor(0);
+				// text = this.add.text(20, 570, '0', {
+				// 	fontSize : '20px',
+				// 	fill: '#ffffff'
+				// });
+				// text.setScrollFactor(0);
 
 		}
 
@@ -160,7 +169,7 @@
 				
 				if( cursors.left.isDown ){ // If the left arrow key is pressed down
 					//activate motion
-					player.body.setVelocityX(-200);
+					player.body.setVelocityX(-220);
 
 					//activate animation
 					player.anims.play('walk', true);
@@ -170,7 +179,7 @@
 
 				}else if(cursors.right.isDown){  // If the right arrow key is pressed down
 					//activate motion
-					player.body.setVelocityX(200);
+					player.body.setVelocityX(220);
 
 					//activate animation
 					player.anims.play('walk', true);
@@ -183,7 +192,7 @@
 					player.anims.play('idle', true);
 				}
 
-				if((cursors.space.isDown || cursors.up.isDown) && player.body.onFloor()){
+				if((cursors.up.isDown && player.body.onFloor()) ){
 					
 					player.body.setVelocityY(-700);
 				}
